@@ -1,0 +1,545 @@
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background-image: url('background.jpg'); /* Replace with your actual image path */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed; /* Keeps the background fixed during scroll */
+    display: flex;
+    flex-direction: column; /* Ensure container items stack vertically if needed */
+    justify-content: flex-start; /* Align items to the start */
+    align-items: center; /* Keep main content centered horizontally */
+    padding-top: 20px; /* Add some padding at the top */
+    padding-bottom: 20px; /* Add padding at the bottom for scroll */
+    position: relative; /* Needed for positioning meteor container */
+    overflow-x: hidden; /* Prevent horizontal scrollbar from meteors starting off-screen */
+}
+
+.meteor-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden; /* Important to contain meteors */
+    pointer-events: none; /* So it doesn't interfere with other elements */
+    z-index: 0; /* Behind main content but above body background */
+}
+
+.star { /* Renamed from .meteor */
+    position: absolute;
+    color: yellow;
+    font-size: 20px; /* Adjust size of the star as needed */
+    text-shadow: 0 0 5px gold; /* Optional: add a little glow */
+    opacity: 0;
+    /* transform: rotate(315deg); */ /* Removed rotation, star character is upright */
+    animation-name: fall-star; /* Renamed from fall-meteor */
+    animation-timing-function: linear;
+    animation-iteration-count: 1; /* Play once per element */
+    user-select: none; /* Prevent text selection of stars */
+}
+
+@keyframes fall-star { /* Renamed from fall-meteor */
+    0% {
+        opacity: 0;
+        transform: translate(0, 0) scale(0.8); /* Start at its JS-defined position, slightly smaller */
+    }
+    10% {
+        opacity: 1;
+        transform: translate(-5vw, 5vh) scale(1); /* Become fully visible and start moving */
+    }
+    85% {
+        opacity: 1; /* Stay visible for most of the fall */
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-100vw, 100vh) scale(0.5); /* Fall diagonally to bottom-left, fade and shrink */
+    }
+}
+
+.container {
+    text-align: center;
+    color: #333;
+    position: relative; /* Ensure container content is above meteors */
+    z-index: 1;
+}
+
+h1 {
+    font-size: 3.5em;
+    color: #e67e22; /* Changed from #ff5e78 to warm orange */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    animation: pulse 2s infinite;
+}
+
+.hearts {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.heart {
+    width: 40px;
+    height: 40px;
+    background: #ff5e78; /* Changed back to pink */
+    position: relative;
+    transform: rotate(-45deg);
+    animation: beat 1.5s infinite;
+}
+
+.heart::before,
+.heart::after {
+    content: '';
+    width: 40px;
+    height: 40px;
+    background: #ff5e78; /* Changed back to pink */
+    border-radius: 50%;
+    position: absolute;
+}
+
+.message {
+    font-size: 1.6em;
+    color: #444;
+    margin: 20px 0;
+    font-style: italic;
+}
+
+.galleries-container {
+    display: flex;
+    justify-content: space-around; /* Distribute space around gallery items */
+    align-items: flex-start; /* Align items to the top */
+    width: 100%;
+    max-width: 900px; /* Max width for the galleries container */
+    margin: 20px 0; /* Add some vertical margin */
+    flex-wrap: wrap; /* Allow galleries to wrap on smaller screens */
+    position: relative; /* For close button positioning */
+}
+
+.galleries-container > div {
+    text-align: center; /* Center the h2 titles above frames */
+    margin: 10px; /* Add some margin around each gallery block */
+}
+
+.photo-frame {
+    width: 250px; /* Adjusted to accommodate arrows */
+    height: 200px;
+    border: 10px solid #d35400; /* Changed from #ffadc0 to darker orange */
+    border-radius: 8px;
+    margin: 10px auto; /* Keep some vertical margin, auto for horizontal centering within its flex item parent if needed */
+    padding: 10px;
+    background-color: #fff;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: space-between; /* Changed to space-between */
+    align-items: center;
+    overflow: hidden;
+    position: relative; /* Added for arrow positioning if needed */
+}
+
+.photo-frame img {
+    max-width: calc(100% - 60px); /* Adjust based on arrow size and padding */
+    max-height: 100%;
+    border-radius: 4px;
+    object-fit: cover; /* Ensures image covers the area without distortion */
+}
+
+.arrow {
+    background-color: rgba(211, 84, 0, 0.7); /* Changed from pink to darker orange */
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 50%;
+    line-height: 1; /* Aligns arrow character better */
+    z-index: 10;
+    transition: background-color 0.3s ease;
+}
+
+.arrow:hover {
+    background-color: rgba(230, 126, 34, 0.9); /* Changed to orange */
+}
+
+/* Birthday Special Section */
+.birthday-special {
+    position: fixed; /* Or absolute, depending on desired effect */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3); /* Optional: Dim background */
+    z-index: 100; /* Ensure it's on top */
+    display: none; /* Initially hidden */
+    justify-content: center;
+    align-items: center;
+}
+
+.birthday-popup {
+    background: linear-gradient(to bottom, #fdf2e9, #fae5d3); /* Changed from pink to light orange/brown */
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    position: relative; /* For confetti and close button positioning */
+    transform: scale(0.7);
+    opacity: 0;
+    display: none; /* Hidden by default, shown by JS */
+    flex-direction: column; /* Align items vertically */
+    align-items: center;
+    animation: popUpModal 0.5s ease-out forwards;
+    max-width: 500px;
+    width: 90%;
+}
+
+.birthday-popup.show {
+    display: flex; /* Or block, depending on content */
+}
+
+@keyframes popUpModal {
+    0% { transform: scale(0.7) translateY(20px); opacity: 0; }
+    100% { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+.close-popup-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #d35400; /* Changed from #ff5e78 to darker orange */
+    cursor: pointer;
+}
+
+.birthday-popup h2 {
+    font-size: 2.5em;
+    color: #d35400; /* Changed from #ff5e78 to darker orange */
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+    margin-top: 0; /* Remove default margin if any */
+    margin-bottom: 20px;
+}
+
+.birthday-message {
+    font-size: 1.3em;
+    color: #555;
+    margin: 15px 0 25px;
+    line-height: 1.5;
+}
+
+.cake-container {
+    position: relative;
+    margin: 30px auto;
+    width: 200px;
+    height: 160px;
+}
+
+.cake {
+    width: 200px;
+    height: 100px;
+    position: relative;
+    background: linear-gradient(
+        to bottom,
+        #fae5d3 0%,
+        #fae5d3 10%,
+        #f39c12 10%,
+        #f39c12 30%,
+        #e67e22 30%,
+        #e67e22 60%,
+        #d35400 60%,
+        #d35400 100%
+    ); /* Changed from pinks to orange/browns */
+    border-radius: 10px 10px 0 0;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+    animation: popOutCake 0.8s ease-out 0.3s forwards; /* Delay cake popout slightly after modal appears */
+}
+
+.cake:before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 20px;
+    bottom: -10px;
+    background: #d35400; /* Changed from #ff5e78 to darker orange */
+    border-radius: 0 0 10px 10px;
+}
+
+.cake-decoration {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #ffffff;
+}
+
+.cake-decoration:nth-child(1) { top: 15px; left: 20px; }
+.cake-decoration:nth-child(2) { top: 45px; left: 65px; }
+.cake-decoration:nth-child(3) { top: 25px; left: 110px; }
+.cake-decoration:nth-child(4) { top: 60px; left: 150px; }
+.cake-decoration:nth-child(5) { top: 75px; left: 45px; }
+
+.candle {
+    width: 10px;
+    height: 35px;
+    background: linear-gradient(to bottom, #f39c12, #d35400); /* Changed to orange gradient */
+    position: absolute;
+    top: -35px;
+    left: 95px;
+    border-radius: 5px;
+    z-index: 1;
+}
+
+.flame {
+    width: 15px;
+    height: 30px;
+    background: linear-gradient(to bottom, #ffffa1, #ffd301);
+    position: absolute;
+    top: -60px;
+    left: 92.5px;
+    border-radius: 50% 50% 20% 20%;
+    box-shadow: 0 0 10px #ff6, 0 0 20px #ff6;
+    transform-origin: center bottom;
+    animation: flicker 0.5s infinite alternate;
+}
+
+.balloons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin: 10px 0 20px 0; /* Adjusted margin */
+}
+
+.balloon {
+    width: 40px;
+    height: 60px;
+    border-radius: 50% 50% 40% 40%;
+    position: relative;
+    animation: float 3s ease-in-out infinite;
+}
+
+.balloon::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 15px;
+    background: #333;
+}
+
+.red { background: #ff4d4d; animation-delay: 0s; }
+.pink { background: #ff69b4; animation-delay: 0.5s; }
+.white { background: #fff; animation-delay: 1s; }
+
+.birthday-wishes {
+    margin-top: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.wish-stars {
+    display: flex;
+    justify-content: center;
+    margin: 10px 0;
+}
+
+.wish-star {
+    color: gold;
+    font-size: 24px;
+    margin: 0 5px;
+    text-shadow: 0 0 5px rgba(255, 215, 0, 0.7);
+    animation: twinkle 1.5s infinite alternate;
+}
+
+.wish-star:nth-child(2) { animation-delay: 0.3s; }
+.wish-star:nth-child(3) { animation-delay: 0.6s; }
+.wish-star:nth-child(4) { animation-delay: 0.9s; }
+.wish-star:nth-child(5) { animation-delay: 1.2s; }
+
+@keyframes twinkle {
+    0% { transform: scale(1); opacity: 0.8; }
+    100% { transform: scale(1.2); opacity: 1; }
+}
+
+@keyframes popOutCake {
+    0% { transform: scale(0.5); opacity: 0; }
+    70% { transform: scale(1.1); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes fall {
+    0% { transform: translateY(-50px) rotateZ(0deg) rotateX(0deg); opacity: 0; } /* Start higher and add 3D rotation */
+    10% { opacity: 1; }
+    100% { transform: translateY(300px) rotateZ(720deg) rotateX(360deg); opacity: 0; } /* Fall further and rotate more */
+}
+
+@keyframes flicker {
+    0% { transform: scaleY(1) scaleX(1); box-shadow: 0 0 10px #ff6, 0 0 20px #ff6; }
+    25% { transform: scaleY(0.9) scaleX(1.1); box-shadow: 0 0 12px #ff6, 0 0 22px #ff6; }
+    50% { transform: scaleY(1.1) scaleX(0.9); box-shadow: 0 0 10px #ff6, 0 0 20px #ff6; }
+    75% { transform: scaleY(0.95) scaleX(1.05); box-shadow: 0 0 11px #ff6, 0 0 21px #ff6; }
+    100% { transform: scaleY(1) scaleX(1); box-shadow: 0 0 10px #ff6, 0 0 20px #ff6; }
+}
+
+.heart-btn, .gallery-btn, .story-btn {
+    padding: 12px 24px;
+    font-size: 1.2em;
+    background: #e67e22; /* Changed from #ff5e78 to warm orange */
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+    width: 200px; /* Fixed width for consistent button sizes */
+}
+
+.heart-btn:hover, .gallery-btn:hover, .story-btn:hover {
+    background: #d35400; /* Changed from #e04a62 to darker orange */
+}
+
+.close-galleries-btn {
+    position: absolute;
+    top: -10px;
+    right: 0;
+    background: rgba(211, 84, 0, 0.8); /* Changed to darker orange */
+    color: white;
+    border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    cursor: pointer;
+    transition: background 0.3s;
+    z-index: 5;
+}
+
+.close-galleries-btn:hover {
+    background: #d35400; /* Changed to solid darker orange */
+}
+
+.floating-heart {
+    width: 20px;
+    height: 20px;
+    background: #ff5e78; /* Changed back to pink */
+    position: absolute;
+    bottom: -20px;
+    transform: rotate(-45deg);
+    animation: floatUp 5s linear;
+    z-index: 10; /* Ensure hearts appear above other elements */
+}
+
+.floating-heart::before,
+.floating-heart::after {
+    content: '';
+    width: 20px;
+    height: 20px;
+    background: #ff5e78; /* Changed back to pink */
+    border-radius: 50%;
+    position: absolute;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+@keyframes beat {
+    0%, 100% { transform: rotate(-45deg) scale(1); }
+    50% { transform: rotate(-45deg) scale(1.2); }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+
+@keyframes floatUp {
+    0% { transform: translateY(0) rotate(-45deg); opacity: 1; }
+    100% { transform: translateY(-100vh) rotate(-45deg); opacity: 0; }
+}
+
+/* Heart Counter */
+.heart-counter {
+    margin-top: 10px;
+    font-size: 1.2em;
+    color: #e67e22; /* Keep this orange */
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    animation: pulse 1.5s infinite;
+}
+
+/* Add a small visual heart icon before the heart counter */
+.heart-counter::before {
+    content: '♥';
+    color: #ff5e78; /* Pink heart symbol */
+    margin-right: 5px;
+    font-size: 1.2em;
+}
+
+/* Button layout updated for vertical arrangement */
+.buttons-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 20px 0;
+    align-items: center;
+}
+
+.story-container {
+    width: 100%;
+    max-width: 700px;
+    margin: 20px auto;
+    position: relative;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    padding: 20px 30px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    text-align: left;
+}
+
+.story-content {
+    max-height: 350px;
+    overflow-y: auto;
+    padding-right: 10px;
+    line-height: 1.6;
+}
+
+.story-content p {
+    margin-bottom: 15px;
+    color: #555;
+}
+
+.close-story-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: rgba(211, 84, 0, 0.8); /* Changed to darker orange */
+    color: white;
+    border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    cursor: pointer;
+    transition: background 0.3s;
+    z-index: 5;
+}
+
+.close-story-btn:hover {
+    background: #d35400; /* Changed to solid darker orange */
+}
+
+.story-container h2 {
+    color: #e67e22; /* Changed from #ff5e78 to warm orange */
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 1.8em;
+}

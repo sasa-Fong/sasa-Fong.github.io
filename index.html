@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>莎莎和方方</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="meteor-container"></div> <!-- Container for meteors -->
+    <div class="container">
+        <h1>莎莎和方方</h1>
+
+        <!-- Buttons arranged vertically -->
+        <div class="buttons-container">
+            <button class="gallery-btn">看看照片</button>
+            <button class="story-btn">看看我们的故事</button>
+            <button class="heart-btn">发送爱心!</button>
+        </div>
+
+        <div class="heart-counter">收到的爱心: <span id="heartCount">0</span></div>
+
+        <!-- Wrap galleries in a container that's initially hidden -->
+        <div class="galleries-container" id="galleriesSection" style="display: none;">
+            <!-- Add close button for the entire galleries section -->
+            <button class="close-galleries-btn" onclick="toggleGalleries()">×</button>
+            <div>
+                <h2>美美照片</h2>
+                <div class="photo-frame">
+                    <button class="arrow left-arrow" onclick="changeImage(-1)">&#10094;</button>
+                    <img src="placeholder.jpg" alt="Our Photo" id="galleryImage">
+                    <button class="arrow right-arrow" onclick="changeImage(1)">&#10095;</button>
+                </div>
+            </div>
+            <div>
+                <h2>甜甜日常</h2>
+                <div class="photo-frame">
+                    <button class="arrow left-arrow" onclick="changeImageDaily(-1)">&#10094;</button>
+                    <img src="placeholder_daily.jpg" alt="Our Daily Photo" id="galleryImageDaily">
+                    <button class="arrow right-arrow" onclick="changeImageDaily(1)">&#10095;</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Story display section -->
+        <div class="story-container" id="storySection" style="display: none;">
+            <button class="close-story-btn" onclick="toggleStory()">×</button>
+            <h2>小熊猫莎莎</h2>
+            <div class="story-content" id="storyContent">
+                <!-- Story content will be loaded here -->
+                <p>Loading our story...</p>
+            </div>
+        </div>
+
+        <!-- Birthday element as a limited-time feature -->
+        <div class="birthday-special" id="birthdaySection">
+            <div id="birthdayPopup" class="birthday-popup"> <!-- New popup container -->
+                <button class="close-popup-btn" onclick="closeBirthdayPopup()">×</button> <!-- Optional close button -->
+                <h2>亲爱的，生日快乐!</h2>
+                <div class="confetti-container">
+                    <!-- Increased number of confetti -->
+                    <div class="confetti"></div> <div class="confetti pink"></div> <div class="confetti blue"></div>
+                    <div class="confetti green"></div> <div class="confetti"></div> <div class="confetti pink"></div>
+                    <div class="confetti blue"></div> <div class="confetti green"></div> <div class="confetti"></div>
+                    <div class="confetti pink"></div> <div class="confetti blue"></div> <div class="confetti green"></div>
+                    <div class="confetti"></div> <div class="confetti pink"></div> <div class="confetti blue"></div>
+                    <div class="confetti green"></div> <div class="confetti"></div> <div class="confetti pink"></div>
+                    <div class="confetti blue"></div> <div class="confetti green"></div> <div class="confetti"></div>
+                </div>
+                
+                <div class="birthday-message">
+                    今天是你的特别日子，感谢你带给我的所有快乐和美好！希望你的生日充满欢笑、惊喜和幸福。
+                </div>
+                
+                <div class="cake-container">
+                    <div class="cake">
+                        <div class="cake-decoration"></div>
+                        <div class="cake-decoration"></div>
+                        <div class="cake-decoration"></div>
+                        <div class="cake-decoration"></div>
+                        <div class="cake-decoration"></div>
+                    </div>
+                    <div class="candle"></div>
+                    <div class="flame"></div>
+                </div>
+                
+                <div class="birthday-wishes">
+                    <p>许个愿望吧！</p>
+                    <div class="wish-stars">
+                        <span class="wish-star">★</span>
+                        <span class="wish-star">★</span>
+                        <span class="wish-star">★</span>
+                        <span class="wish-star">★</span>
+                        <span class="wish-star">★</span>
+                    </div>
+                    <p>祝你所有的梦想都能实现！</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="imageLoader.js"></script>
+    <script>
+        const birthdayPopup = document.getElementById('birthdayPopup');
+        // Check if it's a specific date for birthday (e.g., May 6 for demo)
+        const today = new Date();
+        const isBirthday = today.getMonth() === 4 && today.getDate() === 10; // Example: May 7
+        
+        if (isBirthday) {
+            document.getElementById('birthdaySection').style.display = 'block'; // Show the main section
+            birthdayPopup.style.display = 'flex'; // Display the popup
+            birthdayPopup.classList.add('show'); // Add class to trigger animation
+        } else {
+            document.getElementById('birthdaySection').style.display = 'none';
+        }
+
+        function closeBirthdayPopup() { // Function to close popup
+            birthdayPopup.classList.remove('show');
+            setTimeout(() => { // Wait for animation to finish before hiding
+                birthdayPopup.style.display = 'none';
+                document.getElementById('birthdaySection').style.display = 'none'; // Optionally hide the whole birthday section again
+            }, 500); // Match animation duration
+        }
+
+        // Initialize heart counter
+        let heartCount = 0;
+        const heartCountDisplay = document.getElementById('heartCount');
+
+        document.querySelector('.heart-btn').addEventListener('click', () => {
+            // Send only one heart per click
+            createHeart();
+            
+            // Update the heart counter
+            heartCount++;
+            heartCountDisplay.textContent = heartCount;
+        });
+
+        // Add the createHeart function implementation
+        function createHeart() {
+            const container = document.querySelector('.container');
+            const heart = document.createElement('div');
+            heart.classList.add('floating-heart');
+            
+            // Position the heart randomly at the bottom of the container
+            heart.style.left = Math.random() * 100 + '%';
+            
+            // Add some randomness to animation duration and delay
+            const duration = 3 + Math.random() * 2; // 3-5 seconds
+            heart.style.animationDuration = duration + 's';
+            
+            // Add slight size variation
+            const size = 0.8 + Math.random() * 0.4; // 0.8-1.2 scale
+            heart.style.transform = `rotate(-45deg) scale(${size})`;
+            
+            container.appendChild(heart);
+            
+            // Remove the heart after animation completes
+            setTimeout(() => {
+                heart.remove();
+            }, duration * 1000);
+        }
+
+        // Add event listener for gallery button
+        document.querySelector('.gallery-btn').addEventListener('click', toggleGalleries);
+
+        // Add event listener for story button
+        document.querySelector('.story-btn').addEventListener('click', toggleStory);
+
+        // Function to toggle story visibility and load story content
+        function toggleStory() {
+            const storySection = document.getElementById('storySection');
+            
+            if (storySection.style.display === 'none') {
+                storySection.style.display = 'block'; // Show story
+                document.querySelector('.story-btn').textContent = '收起故事'; // Change button text
+                
+                // Load story content from text file
+                loadStory();
+            } else {
+                storySection.style.display = 'none'; // Hide story
+                document.querySelector('.story-btn').textContent = '看看我们的故事'; // Change button text back
+            }
+        }
+        
+        // Function to load story from text file
+        function loadStory() {
+            const storyContent = document.getElementById('storyContent');
+            storyContent.innerHTML = '<p>Loading our story...</p>';
+            
+            // First try to load the external file
+            fetch('our_story.txt', {
+                headers: {
+                    'Content-Type': 'text/plain; charset=utf-8'
+                },
+                cache: 'no-cache' // Avoid caching issues
+            })
+            .then(response => {
+                console.log('Response status:', response.status);
+                if (!response.ok) {
+                    throw new Error('Story file not found: ' + response.status);
+                }
+                return response.text();
+            })
+            .then(text => {
+                console.log('Text loaded, length:', text.length);
+                // Check if text loaded properly (not empty)
+                if (text.trim() === '') {
+                    throw new Error('Empty content');
+                }
+                
+                // Display the raw content for debugging if needed
+                console.log('First 100 chars:', text.substring(0, 100));
+                
+                // Split text by newlines and convert to paragraphs
+                const paragraphs = text.split('\n\n').filter(p => p.trim() !== '');
+                
+                if (paragraphs.length === 0) {
+                    throw new Error('No paragraphs found');
+                }
+                
+                storyContent.innerHTML = paragraphs
+                    .map(paragraph => `<p>${paragraph.replace(/\n/g, '<br>')}</p>`)
+                    .join('');
+            })
+            .catch(error => {
+                console.error('Error loading story:', error);
+                // Fallback to hardcoded content
+                storyContent.innerHTML = '<p>Sorry, we couldn\'t load our story. Here\'s a fallback:</p>' 
+            });
+        }
+
+        // Function to toggle galleries visibility
+        function toggleGalleries() {
+            const galleriesSection = document.getElementById('galleriesSection');
+            
+            if (galleriesSection.style.display === 'none') {
+                galleriesSection.style.display = 'flex'; // Show galleries
+                document.querySelector('.gallery-btn').textContent = '收起照片'; // Change button text
+                
+                // Initialize image galleries when opened
+                initializeGalleries();
+            } else {
+                galleriesSection.style.display = 'none'; // Hide galleries
+                document.querySelector('.gallery-btn').textContent = '看看照片'; // Change button text back
+            }
+        }
+
+        // Star fall effect
+        function createStar() {
+            const meteorContainer = document.querySelector('.meteor-container');
+            const star = document.createElement('div');
+            star.classList.add('star');
+            star.textContent = '★'; // Five-pointed star character
+            
+            // Expanded spawn area - stars can start from anywhere along top and right edge
+            const spawnLocation = Math.random();
+            
+            if (spawnLocation < 0.7) {
+                // 70% chance to spawn from top-right quadrant (original behavior but wider range)
+                star.style.left = (Math.random() * 50 + 50) + 'vw'; // From 50vw to 100vw (right half)
+                star.style.top = (Math.random() * -80) - 20 + 'px'; // Start higher above screen
+            } else if (spawnLocation < 0.85) {
+                // 15% chance to spawn from top edge
+                star.style.left = Math.random() * 100 + 'vw'; // Anywhere along the top
+                star.style.top = (Math.random() * -60) - 20 + 'px';
+            } else {
+                // 15% chance to spawn from right edge
+                star.style.left = '100vw'; // Right edge
+                star.style.top = Math.random() * 70 + 'vh'; // Anywhere along right side
+            }
+            
+            // Varied animation speeds
+            star.style.animationDuration = (Math.random() * 4 + 2) + 's'; // 2-6 seconds
+            star.style.animationDelay = Math.random() * 3 + 's'; // 0-3 second delay
+            
+            // Random size variation (50% to 150% of original size)
+            const sizeVariation = 0.5 + Math.random();
+            star.style.fontSize = (20 * sizeVariation) + 'px';
+            
+            meteorContainer.appendChild(star);
+
+            // Remove star after animation to prevent clutter
+            star.addEventListener('animationend', () => {
+                star.remove();
+            });
+        }
+
+        // Create more stars initially and increase generation frequency
+        for (let i = 0; i < 30; i++) { // Increased from 15 to 30
+            createStar();
+        }
+        setInterval(createStar, 600); // Create a new star every 600ms (increased from 2000ms)
+    </script>
+</body>
+</html>

@@ -20,7 +20,7 @@ const dailyImageElement = document.getElementById('galleryImageDaily');
  */
 function loadGalleryImages() {
     // Load photoshoot images
-    fetch('/api/images/photoshoot')
+    fetch('/api/photoshoot')
         .then(response => response.json())
         .then(data => {
             photoshootImages = data;
@@ -37,7 +37,7 @@ function loadGalleryImages() {
         });
 
     // Load daily images
-    fetch('/api/images/daily')
+    fetch('/api/daily')
         .then(response => response.json())
         .then(data => {
             dailyImages = data;

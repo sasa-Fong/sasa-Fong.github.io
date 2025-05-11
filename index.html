@@ -56,7 +56,7 @@
         <div class="birthday-special" id="birthdaySection">
             <div id="birthdayPopup" class="birthday-popup"> <!-- New popup container -->
                 <button class="close-popup-btn" onclick="closeBirthdayPopup()">×</button> <!-- Optional close button -->
-                <h2>亲爱的，生日快乐!</h2>
+                <h2>生日快乐!</h2>
                 <div class="confetti-container">
                     <!-- Increased number of confetti -->
                     <div class="confetti"></div> <div class="confetti pink"></div> <div class="confetti blue"></div>
@@ -69,7 +69,7 @@
                 </div>
                 
                 <div class="birthday-message">
-                    今天是你的特别日子，感谢你带给我的所有快乐和美好！希望你的生日充满欢笑、惊喜和幸福。
+                    这是我们共同度过的第二个生日，第一年的生日愿望当然会实现！
                 </div>
                 
                 <div class="cake-container">
@@ -86,14 +86,7 @@
                 
                 <div class="birthday-wishes">
                     <p>许个愿望吧！</p>
-                    <div class="wish-stars">
-                        <span class="wish-star">★</span>
-                        <span class="wish-star">★</span>
-                        <span class="wish-star">★</span>
-                        <span class="wish-star">★</span>
-                        <span class="wish-star">★</span>
-                    </div>
-                    <p>祝你所有的梦想都能实现！</p>
+
                 </div>
             </div>
         </div>
@@ -104,8 +97,8 @@
         const birthdayPopup = document.getElementById('birthdayPopup');
         // Check if it's a specific date for birthday (e.g., May 6 for demo)
         const today = new Date();
-        const isBirthday = today.getMonth() === 4 && today.getDate() === 10; // Example: May 7
-        
+        const isBirthday = today.getMonth() === 4 && today.getDate() === 11; // Example: May 11
+
         if (isBirthday) {
             document.getElementById('birthdaySection').style.display = 'block'; // Show the main section
             birthdayPopup.style.display = 'flex'; // Display the popup

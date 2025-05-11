@@ -92,7 +92,6 @@
         </div>
     </div>
 
-    <script src="imageLoader.js"></script>
     <script>
         const birthdayPopup = document.getElementById('birthdayPopup');
         const birthdayAudio = document.getElementById('birthdayAudio'); // Get the audio element
@@ -122,6 +121,68 @@
                 birthdayPopup.style.display = 'none';
                 document.getElementById('birthdaySection').style.display = 'none'; // Optionally hide the whole birthday section again
             }, 500); // Match animation duration
+        }
+
+        // Image collections - Define your image paths here
+        // Ensure these images exist in the specified paths relative to index.html
+        // For example, create an 'images/photoshoot/' and 'images/daily/' folder
+        const photoshootImages = [
+            'daily\IMG_1639.JPG', // Replace with your actual image paths
+            'daily\IMG_1640.JPG',
+            'daily\IMG_1641.JPG'
+            // Add more photoshoot image paths here
+        ];
+        const dailyImages = [
+            'photoshoot\IMG_1895.JPG', // Replace with your actual image paths
+            'photoshoot\IMG_1896.JPG',
+            'photoshoot\IMG_1897.JPG'
+            // Add more daily image paths here
+        ];
+
+        let photoshootImageIndex = 0;
+        let dailyImageIndex = 0;
+
+        const galleryImageElement = document.getElementById('galleryImage');
+        const dailyImageElement = document.getElementById('galleryImageDaily');
+
+        function updateGalleryImage() {
+            if (photoshootImages.length > 0) {
+                galleryImageElement.src = photoshootImages[photoshootImageIndex];
+                galleryImageElement.alt = `Our Photo ${photoshootImageIndex + 1} of ${photoshootImages.length}`;
+            } else {
+                galleryImageElement.src = 'placeholder.jpg'; // Fallback if no images
+            }
+        }
+
+        function updateDailyImage() {
+            if (dailyImages.length > 0) {
+                dailyImageElement.src = dailyImages[dailyImageIndex];
+                dailyImageElement.alt = `Our Daily Photo ${dailyImageIndex + 1} of ${dailyImages.length}`;
+            } else {
+                dailyImageElement.src = 'placeholder_daily.jpg'; // Fallback if no images
+            }
+        }
+
+        function changeImage(direction) {
+            if (photoshootImages.length === 0) return;
+            photoshootImageIndex += direction;
+            if (photoshootImageIndex < 0) {
+                photoshootImageIndex = photoshootImages.length - 1;
+            } else if (photoshootImageIndex >= photoshootImages.length) {
+                photoshootImageIndex = 0;
+            }
+            updateGalleryImage();
+        }
+
+        function changeImageDaily(direction) {
+            if (dailyImages.length === 0) return;
+            dailyImageIndex += direction;
+            if (dailyImageIndex < 0) {
+                dailyImageIndex = dailyImages.length - 1;
+            } else if (dailyImageIndex >= dailyImages.length) {
+                dailyImageIndex = 0;
+            }
+            updateDailyImage();
         }
 
         // Initialize heart counter
@@ -240,7 +301,8 @@
                 document.querySelector('.gallery-btn').textContent = '收起照片'; // Change button text
                 
                 // Initialize image galleries when opened
-                initializeGalleries();
+                updateGalleryImage(); // Load the first photoshoot image
+                updateDailyImage();   // Load the first daily image
             } else {
                 galleriesSection.style.display = 'none'; // Hide galleries
                 document.querySelector('.gallery-btn').textContent = '看看照片'; // Change button text back

@@ -57,6 +57,7 @@
             <div id="birthdayPopup" class="birthday-popup"> <!-- New popup container -->
                 <button class="close-popup-btn" onclick="closeBirthdayPopup()">×</button> <!-- Optional close button -->
                 <h2>生日快乐!</h2>
+                <audio id="birthdayAudio" src="birthday_song.mp3" preload="auto"></audio> <!-- Add your audio file here -->
                 <div class="confetti-container">
                     <!-- Increased number of confetti -->
                     <div class="confetti"></div> <div class="confetti pink"></div> <div class="confetti blue"></div>
@@ -94,19 +95,28 @@
     <script src="imageLoader.js"></script>
     <script>
         const birthdayPopup = document.getElementById('birthdayPopup');
+        const birthdayAudio = document.getElementById('birthdayAudio'); // Get the audio element
         // Check if it's a specific date for birthday (e.g., May 6 for demo)
         const today = new Date();
         const isBirthday = today.getMonth() === 4 && today.getDate() === 11; // Example: May 11
 
         if (isBirthday) {
-            document.getElementById('birthdaySection').style.display = 'block'; // Show the main section
+            const birthdaySection = document.getElementById('birthdaySection');
+            birthdaySection.style.display = 'flex'; // Use flex to enable centering via CSS
             birthdayPopup.style.display = 'flex'; // Display the popup
             birthdayPopup.classList.add('show'); // Add class to trigger animation
+            if (birthdayAudio) {
+                birthdayAudio.play().catch(error => console.error("Audio play failed:", error)); // Play audio
+            }
         } else {
             document.getElementById('birthdaySection').style.display = 'none';
         }
 
         function closeBirthdayPopup() { // Function to close popup
+            if (birthdayAudio) {
+                birthdayAudio.pause(); // Pause audio
+                birthdayAudio.currentTime = 0; // Reset audio to the beginning
+            }
             birthdayPopup.classList.remove('show');
             setTimeout(() => { // Wait for animation to finish before hiding
                 birthdayPopup.style.display = 'none';

@@ -257,9 +257,11 @@ h1 {
 .cake:before {
     content: '';
     position: absolute;
-    width: 100%;
+    width: 190px; /* Slightly narrower than the cake (200px) */
     height: 20px;
     bottom: -10px;
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Adjust for its own width */
     background: #d35400; /* Changed from #ff5e78 to darker orange */
     border-radius: 0 0 10px 10px;
 }
@@ -386,7 +388,7 @@ h1 {
 .heart-btn, .gallery-btn, .story-btn {
     padding: 12px 24px;
     font-size: 1.2em;
-    background: #e67e22; /* Changed from #ff5e78 to warm orange */
+    background: #e67e22; /* Warm orange */
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -396,14 +398,14 @@ h1 {
 }
 
 .heart-btn:hover, .gallery-btn:hover, .story-btn:hover {
-    background: #d35400; /* Changed from #e04a62 to darker orange */
+    background: #d35400; /* Darker orange */
 }
 
 .close-galleries-btn {
     position: absolute;
     top: -10px;
     right: 0;
-    background: rgba(211, 84, 0, 0.8); /* Changed to darker orange */
+    background: rgba(211, 84, 0, 0.8); /* Darker orange transparent */
     color: white;
     border: none;
     width: 30px;
@@ -419,7 +421,7 @@ h1 {
 }
 
 .close-galleries-btn:hover {
-    background: #d35400; /* Changed to solid darker orange */
+    background: #d35400; /* Solid darker orange */
 }
 
 .floating-heart {

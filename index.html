@@ -8,6 +8,7 @@
 </head>
 <body>
     <!-- Profile photos - positioned fixed on left and right sides -->
+    <!-- SERVER CHECK: Ensure 'head_sasa.jpg' and 'head_fong.jpg' are in the root or update path. Check case sensitivity. -->
     <div class="profile-photo left-photo">
         <img src="head_sasa.jpg" alt="莎莎">
     </div>
@@ -36,6 +37,7 @@
                 <h2>甜甜日常</h2>
                 <div class="photo-frame">
                     <button class="arrow left-arrow" onclick="changeImage(-1)">&#10094;</button>
+                    <!-- SERVER CHECK: 'placeholder.jpg' path and case. -->
                     <img src="placeholder.jpg" alt="Our Photo" id="galleryImage">
                     <button class="arrow right-arrow" onclick="changeImage(1)">&#10095;</button>
                 </div>
@@ -44,6 +46,7 @@
                 <h2>美美照片</h2>
                 <div class="photo-frame">
                     <button class="arrow left-arrow" onclick="changeImageDaily(-1)">&#10094;</button>
+                    <!-- SERVER CHECK: 'placeholder_daily.jpg' path and case. -->
                     <img src="placeholder_daily.jpg" alt="Our Daily Photo" id="galleryImageDaily">
                     <button class="arrow right-arrow" onclick="changeImageDaily(1)">&#10095;</button>
                 </div>
@@ -65,7 +68,10 @@
             <div id="birthdayPopup" class="birthday-popup"> <!-- New popup container -->
                 <button class="close-popup-btn" onclick="closeBirthdayPopup()">×</button> <!-- Optional close button -->
                 <h2>生日快乐!</h2>
+                <!-- SERVER CHECK: Ensure 'birthday_song.mp3' is in the root or update path. Check case sensitivity. -->
                 <audio id="birthdayAudio" src="birthday_song.mp3" preload="auto"></audio> <!-- Add your audio file here -->
+                <!-- Fallback button for audio playback if autoplay is blocked -->
+                <button id="audioPlayButton" class="audio-play-btn" style="display: none;">播放生日歌</button>
                 <div class="confetti-container">
                     <!-- Increased number of confetti -->
                     <div class="confetti"></div> <div class="confetti pink"></div> <div class="confetti blue"></div>
@@ -103,6 +109,8 @@
     <script>
         const birthdayPopup = document.getElementById('birthdayPopup');
         const birthdayAudio = document.getElementById('birthdayAudio'); // Get the audio element
+        const audioPlayButton = document.getElementById('audioPlayButton'); // Get the audio play button
+
         // Check if it's a specific date for birthday (e.g., May 6 for demo)
         const today = new Date();
         const isBirthday = today.getMonth() === 4 && today.getDate() === 12; // Example: May 12
@@ -113,10 +121,26 @@
             birthdayPopup.style.display = 'flex'; // Display the popup
             birthdayPopup.classList.add('show'); // Add class to trigger animation
             if (birthdayAudio) {
-                birthdayAudio.play().catch(error => console.error("Audio play failed:", error)); // Play audio
+                birthdayAudio.play().catch(error => {
+                    console.error("Audio play failed:", error);
+                    // Show the manual play button if autoplay fails
+                    if (audioPlayButton) {
+                        audioPlayButton.style.display = 'block';
+                    }
+                });
             }
         } else {
             document.getElementById('birthdaySection').style.display = 'none';
+        }
+
+        // Add event listener for the manual audio play button
+        if (audioPlayButton) {
+            audioPlayButton.addEventListener('click', () => {
+                if (birthdayAudio) {
+                    birthdayAudio.play();
+                    audioPlayButton.style.display = 'none'; // Hide button after starting playback
+                }
+            });
         }
 
         function closeBirthdayPopup() { // Function to close popup
@@ -132,25 +156,24 @@
         }
 
         // Image collections - Define your image paths here
-        // Ensure these images exist in the specified paths relative to index.html
-        // For example, create an 'images/photoshoot/' and 'images/daily/' folder
+        // SERVER CHECK: Ensure these paths and filenames (including extensions like .JPG vs .jpg)
+        // exactly match your server's file structure and are case-sensitive.
+        // e.g., 'daily/daily1.JPG' requires a folder 'daily' and a file 'daily1.JPG'.
         const photoshootImages = [
-            'daily/daily1.JPG', // Replace with your actual image paths
+            'daily/daily1.JPG', 
             'daily/daily2.JPG',
             'daily/daily3.JPG',
             'daily/daily4.JPG',
             'daily/daily5.JPG',
             'daily/daily6.JPG'
-            // Add more photoshoot image paths here
         ];
         const dailyImages = [
-            'photoshoot/IMG_1636.JPG', // Replace with your actual image paths
+            'photoshoot/IMG_1636.JPG', 
             'photoshoot/IMG_1637.JPG',  
             'photoshoot/IMG_1649.JPG',
             'photoshoot/IMG_1824.JPG',
             'photoshoot/IMG_1859.JPG',
             'photoshoot/IMG_1876.JPG'
-            // Add more daily image paths here
         ];
 
         let photoshootImageIndex = 0;
@@ -164,6 +187,7 @@
                 galleryImageElement.src = photoshootImages[photoshootImageIndex];
                 galleryImageElement.alt = `Our Photo ${photoshootImageIndex + 1} of ${photoshootImages.length}`;
             } else {
+                // SERVER CHECK: 'placeholder.jpg' path and case.
                 galleryImageElement.src = 'placeholder.jpg'; // Fallback if no images
             }
         }
@@ -173,6 +197,7 @@
                 dailyImageElement.src = dailyImages[dailyImageIndex];
                 dailyImageElement.alt = `Our Daily Photo ${dailyImageIndex + 1} of ${dailyImages.length}`;
             } else {
+                // SERVER CHECK: 'placeholder_daily.jpg' path and case.
                 dailyImageElement.src = 'placeholder_daily.jpg'; // Fallback if no images
             }
         }
@@ -265,6 +290,7 @@
             storyContent.innerHTML = '<p>Loading our story...</p>';
             
             // First try to load the external file
+            // SERVER CHECK: Ensure 'our_story.txt' is in the root or update path. Check case sensitivity.
             fetch('our_story.txt', {
                 headers: {
                     'Content-Type': 'text/plain; charset=utf-8'

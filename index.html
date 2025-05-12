@@ -7,6 +7,14 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- Profile photos - positioned fixed on left and right sides -->
+    <div class="profile-photo left-photo">
+        <img src="head_sasa.jpg" alt="莎莎">
+    </div>
+    <div class="profile-photo right-photo">
+        <img src="head_fong.jpg" alt="方方">
+    </div>
+
     <div class="meteor-container"></div> <!-- Container for meteors -->
     <div class="container">
         <h1>莎莎和方方</h1>
@@ -25,7 +33,7 @@
             <!-- Add close button for the entire galleries section -->
             <button class="close-galleries-btn" onclick="toggleGalleries()">×</button>
             <div>
-                <h2>美美照片</h2>
+                <h2>甜甜日常</h2>
                 <div class="photo-frame">
                     <button class="arrow left-arrow" onclick="changeImage(-1)">&#10094;</button>
                     <img src="placeholder.jpg" alt="Our Photo" id="galleryImage">
@@ -33,7 +41,7 @@
                 </div>
             </div>
             <div>
-                <h2>甜甜日常</h2>
+                <h2>美美照片</h2>
                 <div class="photo-frame">
                     <button class="arrow left-arrow" onclick="changeImageDaily(-1)">&#10094;</button>
                     <img src="placeholder_daily.jpg" alt="Our Daily Photo" id="galleryImageDaily">
@@ -127,15 +135,21 @@
         // Ensure these images exist in the specified paths relative to index.html
         // For example, create an 'images/photoshoot/' and 'images/daily/' folder
         const photoshootImages = [
-            'daily/IMG_1639.JPG', // Replace with your actual image paths
-            'daily/IMG_1640.JPG',
-            'daily/IMG_1641.JPG'
+            'daily/daily1.JPG', // Replace with your actual image paths
+            'daily/daily2.JPG',
+            'daily/daily3.JPG',
+            'daily/daily4.JPG',
+            'daily/daily5.JPG',
+            'daily/daily6.JPG'
             // Add more photoshoot image paths here
         ];
         const dailyImages = [
-            'photoshoot/IMG_1895.JPG', // Replace with your actual image paths
-            'photoshoot/IMG_1896.JPG',
-            'photoshoot/IMG_1897.JPG',
+            'photoshoot/IMG_1636.JPG', // Replace with your actual image paths
+            'photoshoot/IMG_1637.JPG',  
+            'photoshoot/IMG_1649.JPG',
+            'photoshoot/IMG_1824.JPG',
+            'photoshoot/IMG_1859.JPG',
+            'photoshoot/IMG_1876.JPG'
             // Add more daily image paths here
         ];
 

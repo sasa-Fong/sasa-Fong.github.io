@@ -540,3 +540,83 @@ h1 {
     text-align: center;
     font-size: 1.8em;
 }
+
+/* Profile Photos */
+.profile-photo {
+    position: fixed;
+    z-index: 50;
+    width: 150px; /* Size of the photo container */
+    height: 150px;
+    border-radius: 50%; /* Circular shape */
+    overflow: hidden; /* Ensures the image stays within the circle */
+    border: 5px solid #e67e22; /* Orange border */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.profile-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensure the image covers the area */
+}
+
+.left-photo {
+    top: 50px;
+    left: 50px;
+}
+
+.right-photo {
+    top: 50px;
+    right: 50px;
+}
+
+/* Audio play button for fallback */
+.audio-play-btn {
+    background-color: #e67e22;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 30px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.audio-play-btn:hover {
+    background-color: #d35400;
+}
+
+/* Make profile photos responsive */
+@media (max-width: 1200px) {
+    .profile-photo {
+        width: 120px;
+        height: 120px;
+    }
+    
+    .left-photo {
+        left: 30px;
+    }
+    
+    .right-photo {
+        right: 30px;
+    }
+}
+
+@media (max-width: 768px) {
+    .profile-photo {
+        width: 80px;
+        height: 80px;
+        border-width: 3px;
+    }
+    
+    .left-photo {
+        left: 15px;
+        top: 30px;
+    }
+    
+    .right-photo {
+        right: 15px;
+        top: 30px;
+    }
+}

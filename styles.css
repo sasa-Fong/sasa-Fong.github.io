@@ -87,6 +87,8 @@ h1 {
     position: relative;
     transform: rotate(-45deg);
     animation: beat 1.5s infinite;
+    /* ensure pseudo-elements are visible when rotated */
+    overflow: visible;
 }
 
 .heart::before,
@@ -97,7 +99,12 @@ h1 {
     background: #ff5e78; /* Changed back to pink */
     border-radius: 50%;
     position: absolute;
+    /* position the two circles to form a heart when combined with rotated square */
 }
+
+/* precise offsets: these keep the full heart inside the element box */
+.heart::before { top: -20px; left: 0; }
+.heart::after { top: 0; left: 20px; }
 
 .message {
     font-size: 1.6em;

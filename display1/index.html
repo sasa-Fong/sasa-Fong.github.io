@@ -1,22 +1,79 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Display 2</title>
-    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        /* Small mobile-first overrides kept here */
+        html, body { height: 100%; margin: 0; background: #f2f4f8; }
+        .container {
+            box-sizing: border-box;
+            width: min(420px, 100vw);
+            margin: 18px auto;
+            aspect-ratio: 9 / 19.5;
+            background: #e3ac60;
+            border-radius: 12px;
+            padding: calc(12px + env(safe-area-inset-top));
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            align-items: center;
+            box-shadow: 0 6px 18px rgba(12,18,32,0.08);
+            overflow: auto;
+            position: relative;
+            z-index: 1;
+        }
+        h1 { margin: 0; font-size: clamp(18px, 4.5vw, 26px); }
+        h2 { margin: 0; font-size: clamp(16px, 4vw, 22px); }
+        .story-content p { margin: 0 0 8px 0; line-height: 1.45; font-size: clamp(14px, 3.5vw, 16px); color: #222; text-align: center; }
+        .story-container { width: 92%; }
+        .story-btn { appearance: none; border: none; background: #be0bde; color: white; padding: 12px 20px; border-radius: 10px; font-size: 16px; cursor: pointer; max-width: 240px; align-self: center; }
+        .meteor-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; pointer-events: none; z-index: 0; }
+        .star { position: absolute; color: gold; font-size: 20px; text-shadow: 0 0 5px gold; opacity: 0; animation-name: fall-star; animation-timing-function: linear; animation-iteration-count: 1; }
+        @keyframes fall-star { 0% { opacity: 0; transform: translate(0,0) scale(0.8);} 10% { opacity:1; transform: translate(-5vw,5vh) scale(1);} 85% { opacity:1; } 100% { opacity:0; transform: translate(-100vw,100vh) scale(0.5);} }
+        .profile-photo { position: fixed; z-index: 50; width: 150px; height: 150px; border-radius: 50%; overflow: hidden; border: 5px solid #e67e22; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        .left-photo { top: 50px; left: 16px; }
+        .right-photo { top: 50px; right: 16px; }
+        .hearts { display:flex; justify-content:center; gap:48px; }
+        @media (min-width: 600px) { .container { aspect-ratio: 9 / 16; } }
+    </style>
 </head>
 <body>
+    <!-- Decorative elements: meteors and profile photos -->
+    <div class="meteor-container" aria-hidden="true">
+        <span class="star" style="left:8%; top:6%; animation-duration:2.8s; animation-delay:0s">★</span>
+        <span class="star" style="left:28%; top:4%; animation-duration:3.2s; animation-delay:0.6s">★</span>
+        <span class="star" style="left:62%; top:10%; animation-duration:3.6s; animation-delay:1.1s">★</span>
+        <span class="star" style="left:82%; top:2%; animation-duration:2.4s; animation-delay:0.3s">★</span>
+    </div>
+
     <div class="container">
-        <h1>Display 2</h1>
-        <div class="story-container" style="display: block;">
-            <h2>简单文本展示</h2>
+        <h1>给老婆的信</h1>
+        <div class="hearts" aria-hidden="true">
+            <div class="heart"></div>
+            <div class="heart"></div>
+            <div class="heart"></div>
+        </div>
+        <div class="story-container">
+            <h2>亲爱的莎莎</h2>
             <div class="story-content">
                 <p>这是 display2 页面。</p>
-                <p>你可以在这里放置任意展示文本内容。</p>
+                <p>您可以在这里设置您想展示的文本内容。</p>
             </div>
         </div>
         <button class="story-btn" onclick="window.location.href='../index.html'">返回主页</button>
     </div>
+
+    <script>
+        // Trigger star animations
+        document.querySelectorAll('.star').forEach(el => {
+            const dur = el.style.animationDuration || '3s';
+            const delay = el.style.animationDelay || '0s';
+            el.style.animation = `fall-star ${dur} linear ${delay} 1`;
+            el.style.opacity = '1';
+        });
+    </script>
 </body>
 </html>
